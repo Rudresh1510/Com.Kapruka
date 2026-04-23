@@ -13,7 +13,7 @@ import io.cucumber.java.en.When;
 
 public class ClothingMenuSteps {
 
-	String firstProductDescription, firstProductPrice;
+	String firstProductDescription, firstProductPrice, productNameInSearch;
 	
 	@When("User click on Clothing button")
 	public void user_click_on_clothing_button() {
@@ -71,14 +71,14 @@ public class ClothingMenuSteps {
 	}
 	
 	@When("User captures the name and price of a product")
-	public void user_captures_the_name_and_price_of_a_product() {
+	public void capturesNameAndPriceOfProduct() {
 		ClothingPOM clothing = new ClothingPOM();
 		firstProductDescription = clothing.captureFirstProductDescription();
 		firstProductPrice = clothing.captureFirstProductPrice();		
 	}
 	
 	@When("User click on a product")
-	public void user_clicks_on_the_product() {
+	public void userClicksOnTheProduct() {
 		ClothingPOM clothing = new ClothingPOM();
 		clothing.clickOnFirstProduct();
 	}
@@ -94,14 +94,14 @@ public class ClothingMenuSteps {
 	}
 	
 	@When("User click on Add to Cart button")
-	public void user_click_on_add_to_cart_button() {
+	public void clickOnAddToCartButton() {
 		ClothingFirstProductClickPOM productPage = new ClothingFirstProductClickPOM();
 		productPage.clickAddToCartBtn();
 		productPage.clickViewCartBtn();
 	}
 	
 	@Then("The product should be added to the cart successfully")
-	public void view_Cart() {
+	public void viewCart() {
 		//ViewCartPagePOM viewCart = new ViewCartPagePOM();
 		String cartTitle = threadLocal.get().getTitle();
 		Assert.assertEquals(cartTitle, "Kapruka Shopping Cart");
@@ -169,6 +169,181 @@ public class ClothingMenuSteps {
 		double displayedTotal = viewCart.getDisplayedTotal(); // This method needs to be implemented in ViewCartPagePOM
 		Assert.assertEquals(displayedTotal, expectedTotal, "Expected cart total to be " + expectedTotal + " but got " + displayedTotal);
 	}
+	
+	@Then("The cart should be empty and checkout button should be disabled and user should not be able to navigate to checkout page")
+	public void verifyEmptyCartAndCheckoutDisabled() {
+		ViewCartPagePOM viewCart = new ViewCartPagePOM();
+		//int quantity = viewCart.getProductQuantity();
+		//Assert.assertEquals(quantity, 0, "Expected cart to be empty with quantity 0, but got: " + quantity);
+		boolean isCheckoutEnabled = viewCart.isCheckoutButtonEnabled(); // This method needs to be implemented in ViewCartPagePOM
+		Assert.assertFalse(isCheckoutEnabled, "Expected checkout button to be disabled when cart is empty, but it is enabled");		
+		//viewCart.clickCheckoutBtn();
+		//String currentTitle = threadLocal.get().getTitle();
+		//Assert.assertFalse(currentTitle.contains("Checkout"), "Expected not to navigate to checkout page when cart is empty, but navigated to: " + currentTitle);
+	}
+	
+	
+	@When("User enters a product name {string} in the search bar")
+	public void searchByProduct(String productName) {
+		productNameInSearch = productName;
+		ClothingPOM clothing = new ClothingPOM();
+		clothing.searchForProduct(productName);
+	}
+	
+	@When("User click on search button")
+	public void clickOnSearchButton() {
+		ClothingPOM clothing = new ClothingPOM();
+		clothing.clickSearchBtn();
+	}
+	
+	@Then("Relevant products should be displayed based on the search query")
+	public void verifySearchResults() {
+		ClothingPOM clothing = new ClothingPOM();
+		String url = threadLocal.get().getCurrentUrl();
+		Assert.assertTrue(url.contains(productNameInSearch), "Expected search results page URL to contain search query, but got: " + url);		
+	}
+	
+	@When("User enters an invalid product name {string} in the search bar")
+	public void searchByInvalidProduct(String productName) {
+		//productNameInSearch = "asasdsdssdssffdsf";
+		ClothingPOM clothing = new ClothingPOM();
+		clothing.searchForProduct(productName);
+	}
+	
+	@Then("An appropriate message should be displayed indicating that {string}")
+	public void verifyInvalidProductSearchResultsMessage(String expectedMessage) {
+		ClothingPOM clothing = new ClothingPOM();
+		String actualMessage = clothing.getInvalidSearchMessage();
+		Assert.assertEquals(actualMessage, expectedMessage, "Expected no search results message to be '" + expectedMessage + "' but got '" + actualMessage + "'");
+	}
+	
+	
+	@When("User click on search button without entering a product name")
+	public void clickSearchWithoutEnteringProductName() {
+		ClothingPOM clothing = new ClothingPOM();
+		clothing.clearSearchInput();
+		clothing.clickSearchBtn();
+	}
+	
+	@Then("Same clothing menu page should be displayed")
+	public void verifyEmptySearchResults() {
+		String title = threadLocal.get().getTitle();
+		Assert.assertTrue(title.contains("Sri Lanka"), "Expected to navigate to checkout page, but got: " + title);
+		
+	}
+	
+	@When("User enters special characters {string} in the search bar")
+	public void searchBySpecialCharacters(String specialChars) {
+		ClothingPOM clothing = new ClothingPOM();
+		clothing.searchForProduct(specialChars);
+	}
+	
+	@Then("An error message should be displayed indicating that {string}")
+	public void verifySpecialCharErrorMessage(String expectedMessage) {
+		ClothingPOM clothing = new ClothingPOM();
+		String actualMessage = clothing.getSpecialCharSearchMessage();
+		Assert.assertEquals(actualMessage, expectedMessage, "Expected no search results message to be '" + expectedMessage + "' but got '" + actualMessage + "'");
+	}
+	
+	@Then("Auto suggestion should be displayed based on the entered text {string}")
+	public void verifySearchAutoSuggestion(String searchText) {
+		ClothingPOM clothing = new ClothingPOM();		
+		boolean hasRelevantSuggestion = clothing.getSearchAutoSuggestions().stream()
+				.anyMatch(suggestion -> suggestion.toLowerCase().contains(searchText.toLowerCase()));
+		Assert.assertTrue(hasRelevantSuggestion, "Expected at least one search auto-suggestion to contain '" + searchText + "' but no suggestions were relevant");
+	}
+	
+	@When("User click on back page button")
+	public void nevigateToBackPage() {
+		Keyword.threadLocal.get().navigate().back();
+				
+	}
+	
+	@Then("User should nevigate back to clothing menu")
+	public void backToClothingMenu() {
+		String title = Keyword.threadLocal.get().getTitle();
+		Assert.assertTrue(title.contains("Sri Lanka"), "Expected to navigate to clothing page, but got: " + title);
+		
+	}
+	
+	@When("User click on refresh page button")
+	public void refreshPage() {
+		Keyword.threadLocal.get().navigate().refresh();
+	}
+	
+	@Then("User should stays on same page")
+	public void stayOnSamePage() {
+		String url = Keyword.threadLocal.get().getCurrentUrl();
+		Assert.assertTrue(url.contains(productNameInSearch), "Expected to navigate to clothing page, but got: " + url);
+		
+	}
+	
+	@When("User click on a decrease quantity button")
+	public void decreaseProductQuantity() {
+		ClothingFirstProductClickPOM productPage = new ClothingFirstProductClickPOM();
+		productPage.clickDecreaseQtyBtn();
+	}
+	
+	@Then("User should not able to decrease quantity below {int} product")
+	public void verifyProductQuantity(int minQuantity) {
+		ClothingFirstProductClickPOM productPage = new ClothingFirstProductClickPOM();
+		int quantity = productPage.getMinQuantityNumber();
+		Assert.assertEquals(quantity, minQuantity);		
+	}
+	
+	int stockQuantity;
+	@When("User capture available stock")
+	public void availableStock() {
+		ClothingFirstProductClickPOM productPage = new ClothingFirstProductClickPOM();
+		stockQuantity = productPage.getAvailableStock();		
+	}
+	
+	@When("User click on a increase quantity button")
+	public void clickOnProductIncreamentButton() {
+		ClothingFirstProductClickPOM productPage = new ClothingFirstProductClickPOM();		
+		for (int i = 0; i < (stockQuantity+1); i++) {
+			productPage.clickIncreaseQtyBtn();
+		}		
+	}
+	
+	@Then("User should not able to increase quantity beyond available stock")
+	public void verifyQunatityAfterAvailableStocksClick() {
+		ClothingFirstProductClickPOM productPage = new ClothingFirstProductClickPOM();
+		int quantity = productPage.getMAxQuantityNumber();
+		Assert.assertEquals(quantity, stockQuantity);		
+	}
+	
+	@Then("The products added to cart should still be in the cart after page refresh")
+	public void verifyCartPersistenceAfterRefresh() {
+		ViewCartPagePOM viewCart = new ViewCartPagePOM();
+		boolean isProductInCart = viewCart.isProductPresentInCart(); // This method needs to be implemented in ViewCartPagePOM
+		Assert.assertTrue(isProductInCart, "Expected product to still be in the cart after page refresh, but it is not found");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/* String srcofProductBeforeClick;
+	@When("User capture the image source for first product")
+	public void imageSourceOfProduct() {
+		ClothingPOM clothing = new ClothingPOM();
+		srcofProductBeforeClick = clothing.imgSourceFirstProduct();		
+	}
+	
+	@Then("Image displayed before and after clicking on product should remain same")
+	public void verifyImageConsistency() {
+		ClothingFirstProductClickPOM product = new ClothingFirstProductClickPOM();
+		String srcOfImage = product.srcOfImageProduct();
+		
+		Assert.assertEquals(srcOfImage, srcofProductBeforeClick);
+	} */
+	
+	
 	
 	
 	

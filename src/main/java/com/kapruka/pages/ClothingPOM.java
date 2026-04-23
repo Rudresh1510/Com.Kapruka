@@ -20,8 +20,10 @@ public class ClothingPOM {
 	
 	@FindBy(xpath = "//a[@title='Shop For All Items']")
 	WebElement allItemsBtn;    
+	
 	@FindBy (xpath = "//a[@title='Shop For Womens Clothing b(699)b']")
 	WebElement womenClothingBtn;
+	
 	@FindBy (xpath = "//a[contains(@title,'Shop For Mens Clothing')]//span")
 	WebElement menClothingBtn;
 	
@@ -51,13 +53,35 @@ public class ClothingPOM {
 	
 	@FindBy (xpath = "//a[@title='Shop For Maternity Wear']")
 	WebElement materityWearBtn;
+	
 	// See More / View More button
 	@FindBy (xpath = "//a[@id='viewMoreButton']")
 	WebElement viewMoreProductsBtn;
+	
 	@FindBy(xpath = "(//div[@class='catalogueV2textBlock'])[1]/div[1]")
 	WebElement firstProductDescription;
+	
 	@FindBy(xpath = "(//div[@class='catalogueV2textBlock'])[1]/div[2]")
 	WebElement firstProductPrice;
+	
+	@FindBy(xpath = "//input[@id='search-input']")
+	WebElement searchInputField;
+	
+	@FindBy(xpath = "//button[@id='search_btn']")
+	WebElement searchBtn;
+	
+	@FindBy(xpath = "//div[@class='CatalogueV2Design']/div[1]/h4")
+	WebElement invalidSearchMessage;
+	
+	@FindBy(xpath = "//font[contains(text(),'sorry')]")
+	WebElement specialCharSearchMessage;
+	
+	@FindBy(xpath = "//ul[@id='suggestions-dropdown']/li")
+	List<WebElement> searchAutoSuggestions;
+	
+	//@FindBy(xpath = "//div[contains(@class,'catalogueV2Repeater')]/a")
+	//List<WebElement> productDisplayed;
+	
 	
 	{
 		PageFactory.initElements(Keyword.threadLocal.get(), this);
@@ -193,5 +217,49 @@ public class ClothingPOM {
 			js.executeScript("window.scrollBy(0,250);");
 		}
 	}
+	
+	
+	public void searchForProduct(String productName) {
+		WaitFor.elementToBeVisible(By.xpath("//input[@id='search-input']"));
+		searchInputField.clear();
+		searchInputField.sendKeys(productName);		
+	}
+	
+	public void clearSearchInput() {
+		WaitFor.elementToBeVisible(By.xpath("//input[@id='search-input']"));
+		searchInputField.clear();
+	}
+	
+	public void clickSearchBtn() {
+		WaitFor.elementToBeClickable(By.xpath("//button[@id='search_btn']"));
+		searchBtn.click();
+	}
+	
+	public String getInvalidSearchMessage() {
+		WaitFor.elementToBeVisible(By.xpath("//div[@class='CatalogueV2Design']/div[1]/h4"));
+		return invalidSearchMessage.getText();
+	}
+	
+	public String getSpecialCharSearchMessage() {
+		WaitFor.elementToBeVisible(By.xpath("//font[contains(text(),'sorry')]"));
+		return specialCharSearchMessage.getText();
+	}
+	
+	public List<String> getSearchAutoSuggestions() {
+		WaitFor.presenceOfAllElementLocated(By.xpath("//ul[@id='suggestions-dropdown']/li"), 0);
+		List<WebElement> autoSuggestions = searchAutoSuggestions;
+		return autoSuggestions.stream().map(WebElement::getText).toList();
+	}
+	
+	/* public String imgSourceFirstProduct() {
+		String src=null;
+		WaitFor.presenceOfAllElementLocated(By.xpath("//div[contains(@class,'catalogueV2Repeater')]/a"), getProductsCount());;
+		List<WebElement> products = productDisplayed;
+		if (!products.isEmpty()) {
+			src = products.get(0).getAttribute("src");
+		}
+		return src;
+	} */
+	
 	
 }
