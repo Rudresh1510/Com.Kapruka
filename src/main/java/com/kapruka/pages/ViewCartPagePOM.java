@@ -28,11 +28,9 @@ public class ViewCartPagePOM {
 
 	@FindBy(xpath = "//span[@class='item-name']")
 	WebElement productCount;
-	
-	@FindBy(xpath= "//div[@class='shcont']")
+
+	@FindBy(xpath = "//div[@class='shcont']")
 	WebElement totalAmount;
-	
-	
 
 	{
 		PageFactory.initElements(Keyword.threadLocal.get(), this);
@@ -62,20 +60,21 @@ public class ViewCartPagePOM {
 		WaitFor.elementToBeVisible(By.xpath("//span[@class='item-name']"));
 		String quantityText = productCount.getText();
 		int quantity = Integer.parseInt(quantityText.split(" ")[0]);
-		//System.out.println("Product quantity text: " + quantityText); // Debugging statement to check the captured text
-			return quantity;
+		// System.out.println("Product quantity text: " + quantityText); // Debugging
+		// statement to check the captured text
+		return quantity;
 	}
 
 	public double getDisplayedTotal() {
 		WaitFor.elementToBeVisible(By.xpath("//div[@class='shcont']"));
 		String priceText = totalAmount.getText();
-		
-		String usdPart = priceText.split("\\(")[0];   // "US$38.34 "
+
+		String usdPart = priceText.split("\\(")[0]; // "US$38.34 "
 		double amount = Double.parseDouble(usdPart.replaceAll("[^0-9.]", ""));
-		
+
 		return amount;
 	}
-	
+
 	public boolean isCheckoutButtonDisplayed() {
 		try {
 			WaitFor.elementToBeVisible(By.xpath("//button[@class='checkoutBtn js-checkout']"));
@@ -84,23 +83,25 @@ public class ViewCartPagePOM {
 			return false;
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public boolean isCheckoutButtonEnabled() {
+		try {
+			// WaitFor.elementToBeVisible(By.xpath("//button[@class='checkoutBtn
+			// js-checkout']"));
+			return checkoutBtn.isEnabled();
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean isProductPresentInCart() {
+
+		try {
+			WaitFor.elementToBeVisible(By.xpath("//span[@class='item-name']"));
+			return productCount.isDisplayed();
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 }

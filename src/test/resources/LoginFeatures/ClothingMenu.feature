@@ -7,14 +7,14 @@ This feature contains positive, negative tests for the Kapruka clothing page: ht
  
 # This test case verify that when user click on clothing menu it should load the clothing menu page successfully
 @smoke
- Scenario: Verify that cloting Menu loads successfully when clicked on clothing button
+ Scenario: Verify that clothing Menu loads successfully when clicked on clothing button
     When User click on Clothing button
     Then User should nevigate to clothing menu
 
 
 # This test case verify that when user click on clothing menu and then Mens button it should load the clothing menu page for mens
 @smoke
- Scenario: Verify that Men cloting menu loads successfully when clicked on Men clothing button
+ Scenario: Verify that Men clothing menu loads successfully when clicked on Men clothing button
     When User click on Clothing button
     And User click on Men clothing button
     Then User should nevigate to men clothing menu
@@ -102,13 +102,113 @@ Scenario: Verify that more products are loaded when click on See More Products b
     # This test case verify that when user click on clothing menu, a product and
     # click Add to Cart button the product should be updated in the cart, then when user click on delete button 
     #the product should be removed from the cart and then checkout button should be disabled and user should not be able to navigate to checkout page
-    #@test
-    #Scenario: Verify that user cannot navigate to checkout page with an empty cart
-    #When User click on Clothing button
-    #And User click on a product
-    #And User click on Add to Cart button
-    #And User click on Delete button for the added product
-    #Then The cart should be empty and checkout button should be disabled and user should not be able to navigate to checkout page
+    @smoke
+    Scenario: Verify that user cannot navigate to checkout page with an empty cart
+    When User click on Clothing button
+    And User click on a product
+    And User click on Add to Cart button
+    And User click on Delete button for the added product
+    Then The cart should be empty and checkout button should be disabled and user should not be able to navigate to checkout page
+    
+    
+    #Product search functionality
+    # This test case verify that when user click on clothing menu, then enter a product name in the search bar and click on search button the relevant products should be displayed based on the search query
+    @smoke
+    Scenario: Verify that product search functionality works correctly
+    When User click on Clothing button
+    And User enters a product name "Tshirt" in the search bar
+    And User click on search button
+    Then Relevant products should be displayed based on the search query
+    
+    #Invalid product search functionality
+    # This test case verify that when user click on clothing menu, then enter an invalid product name in the search bar and click on search button an appropriate message should be displayed
+    @smoke
+    Scenario: Verify that appropriate message is displayed for invalid product search
+    When User click on Clothing button
+    And User enters an invalid product name "asasdsdssdssffdsf" in the search bar
+    And User click on search button
+    Then An appropriate message should be displayed indicating that "All items in this category are sold out."
+    
+    #Search without entering product name
+    # This test case verify that when user click on clothing menu, then click on search button without entering a product name an appropriate message should be displayed
+    @smoke
+    Scenario: Verify that appropriate message is displayed when search is performed without entering a product name
+    When User click on Clothing button
+    And User click on search button without entering a product name
+    Then Same clothing menu page should be displayed
+    
+    #Special characters in search
+    # This test case verify that when user click on clothing menu, then enter special characters in the search bar and click on search button
+    @smoke
+    Scenario: Verify that error message is displayed when special characters are entered in the search bar
+    When User click on Clothing button
+    And User enters special characters "@#$%^&*" in the search bar
+    And User click on search button
+    Then An error message should be displayed indicating that "We are sorry. There is a problem with the page you are trying to access."
+    
+    #verify Auto suggestion in search bar
+    # This test case verify that when user click on clothing menu, then enter a product name in the search bar the auto suggestion should be displayed based on the entered text
+    @smoke
+    Scenario: Verify that auto suggestion is displayed in the search bar
+    When User click on Clothing button
+    And User enters a product name "shirt" in the search bar
+    Then Auto suggestion should be displayed based on the entered text "shirt"
+    
+    #neviagting back to clothing page after searching for a product
+    #This test case verify that when user click on clothing menu, then enter special characters in the search bar and click on search button
+    #then click on back button then user should nevigate back to clothing page
+    @smoke 
+    Scenario: Verify that user neviagte back to clothing page when click on back button after product search
+    When User click on Clothing button
+    And User enters a product name "shirt" in the search bar
+    And User click on search button
+    And User click on back page button
+    Then User should nevigate back to clothing menu
+
+    #Verify search keyword persists after page refresh
+    #This test case verify that when user click on clothing menu, then enter valid product name in the search bar and click on search button
+    #and click on refresh button then same page should be displayed
+    @smoke
+    Scenario: Verify that user stays on same page when click on refresh button after product search
+    When User click on Clothing button
+    And User enters a product name "shirt" in the search bar
+    And User click on search button
+    And User click on refresh page button
+    Then User should stays on same page
+	
+    #Verify user cannot decrease quantity below 1
+    #This test case verify that when user click on clothing menu, then click on a produt then add to cart 
+    #then it can't decrease the product quantity below 1
+    @smoke
+    Scenario: Verify user cannot decrease quantity below One 
+    When User click on Clothing button
+    And User click on a product
+    And User click on a decrease quantity button
+    Then User should not able to decrease quantity below 1 product
+    
+    #Verify user cannot increase quantity beyond available stock
+    #This test case verify that when user click on clothing menu, then click on a produt then add to cart 
+    #then it can't increase the product quantity beyond available stock
+    @smoke
+    Scenario: Verify user cannot increase quantity beyond available stock
+	When User click on Clothing button
+    And User click on a product
+    And User capture available stock
+    And User click on a increase quantity button
+    Then User should not able to increase quantity beyond available stock
+    
+    #Verify cart retains products after page refresh
+    #This test case verify that when user click on clothing menu, then click on a produt then add to cart
+    #then click on refresh button then the products added to cart should still be in the cart
+    @test
+    Scenario: Verify that products added to cart are retained after page refresh
+    When User click on Clothing button
+    And User click on a product
+    And User click on Add to Cart button
+    And User click on refresh page button
+    Then The products added to cart should still be in the cart after page refresh
+    
+     
     
     
     
@@ -118,8 +218,7 @@ Scenario: Verify that more products are loaded when click on See More Products b
     
     
     
-    
-    
+
     
     
     

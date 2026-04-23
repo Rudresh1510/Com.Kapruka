@@ -16,10 +16,13 @@ public class ClothingFirstProductClickPOM {
 
 	@FindBy (xpath = "//div[@class='blockDelivery imgtags']/h1")
 	WebElement productTitle;
+	
 	@FindBy (xpath = "//div[@class='price']/span")
 	WebElement productPrice;
+	
 	@FindBy (xpath = "//button[@id='addtocartbutton']")
 	WebElement addToCartBtn;
+	
 	@FindBy (xpath = "//a[text()='View Cart']")
 	WebElement viewCartBtn;
 	
@@ -28,6 +31,15 @@ public class ClothingFirstProductClickPOM {
 	
 	@FindBy(xpath = "//a[@id='decreaseQty']")
 	WebElement decreaseQtyBtn;
+	
+	@FindBy(xpath = "//input[@id='quantityInput']")
+	WebElement quantityTextbx;
+	
+	@FindBy(xpath = "//span[@class='new']")
+	WebElement availableStock;
+	
+	@FindBy(xpath = "//img[@class='clickable-image sizeGrab']")
+	WebElement productImage; 
 
 	{
 		PageFactory.initElements(Keyword.threadLocal.get(), this);
@@ -64,8 +76,33 @@ public class ClothingFirstProductClickPOM {
 		decreaseQtyBtn.click();
 	}
 	
+	/* public String srcOfImageProduct() {
+		WaitFor.elementToBeVisible(By.xpath("//img[@class='clickable-image sizeGrab']"));
+		String src = productImage.getAttribute("src");		
+		return src;
+	} */
 	
+	public int getMinQuantityNumber() {
+		WaitFor.elementToBeVisible(By.xpath("//input[@id='quantityInput']"));
+		String quantity = quantityTextbx.getAttribute("min");
+		int quantitynum = Integer.parseInt(quantity);
+		return quantitynum;		
+	}
 	
+	public int getMAxQuantityNumber() {
+		WaitFor.elementToBeVisible(By.xpath("//input[@id='quantityInput']"));
+		String quantity = quantityTextbx.getAttribute("max");
+		int quantitynum = Integer.parseInt(quantity);
+		return quantitynum;		
+	}
+	
+	public int getAvailableStock() {
+		WaitFor.elementToBeVisible(By.xpath("//span[@class='new']"));
+		String text = availableStock.getText();
+		String number = text.replaceAll("[^0-9]", "");  // removes everything except digits
+		int stockAvailable = Integer.parseInt(number);
+		return stockAvailable;
+	}
 	
 	
 	
