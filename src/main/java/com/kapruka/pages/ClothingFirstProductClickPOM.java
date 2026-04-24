@@ -40,6 +40,13 @@ public class ClothingFirstProductClickPOM {
 	
 	@FindBy(xpath = "//img[@class='clickable-image sizeGrab']")
 	WebElement productImage; 
+	
+	@FindBy (xpath = "//div[@class='logo_wrapper_block']/a[1]")
+	WebElement kaprukaLogo;
+	
+	@FindBy(xpath = "//a[@id='continue_shopping_popup']")
+	WebElement continueShoppingBtn;
+	
 
 	{
 		PageFactory.initElements(Keyword.threadLocal.get(), this);
@@ -51,9 +58,11 @@ public class ClothingFirstProductClickPOM {
 		return productTitle.getText();
 	}
 	
-	public String captureProductPrice() {
+	public double captureProductPrice() {
 		WaitFor.elementToBeVisible(By.xpath("//div[@class='price']/span"));
-		return productPrice.getText();
+		String productPriceText =  productPrice.getText();
+		double priceValue = Double.parseDouble(productPriceText.replaceAll("[^0-9.]", ""));
+		return priceValue;
 	}
 	
 	public void clickAddToCartBtn() {
@@ -103,6 +112,20 @@ public class ClothingFirstProductClickPOM {
 		int stockAvailable = Integer.parseInt(number);
 		return stockAvailable;
 	}
+	
+	public void clickKaprukaLogo() {
+		WaitFor.elementToBeClickable(By.xpath("//div[@class='logo_wrapper_block']/a[1]"));
+		kaprukaLogo.click();
+	}	
+	
+	public void clickCotinueShoppingButton() {
+		WaitFor.elementToBeClickable(By.xpath("//a[@id='continue_shopping_popup']"));
+		continueShoppingBtn.click();
+	}
+	
+	
+	
+	
 	
 	
 	

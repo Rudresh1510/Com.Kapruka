@@ -31,6 +31,13 @@ public class ViewCartPagePOM {
 
 	@FindBy(xpath = "//div[@class='shcont']")
 	WebElement totalAmount;
+	
+	@FindBy(xpath= "//span[@class='item-name']")
+	WebElement productNameInCart;
+	
+	@FindBy(xpath = "//span[@class='item-price']")
+	WebElement productPriceInCart;
+	
 
 	{
 		PageFactory.initElements(Keyword.threadLocal.get(), this);
@@ -69,9 +76,8 @@ public class ViewCartPagePOM {
 		WaitFor.elementToBeVisible(By.xpath("//div[@class='shcont']"));
 		String priceText = totalAmount.getText();
 
-		String usdPart = priceText.split("\\(")[0]; // "US$38.34 "
-		double amount = Double.parseDouble(usdPart.replaceAll("[^0-9.]", ""));
-
+		//String usdPart = priceText.split("\\(")[0]; // "US$38.34 "
+		double amount = Double.parseDouble(priceText.replaceAll("[^0-9.]", ""));
 		return amount;
 	}
 
@@ -103,5 +109,22 @@ public class ViewCartPagePOM {
 			return false;
 		}
 	}
+	
+	public String getProductNameInCart() {
+		WaitFor.elementToBeVisible(By.xpath("//span[@class='item-name']"));
+		return productNameInCart.getText().trim();
+	}
+	
+	
+	public int getProductPriceInCart() {
+		WaitFor.elementToBeVisible(By.xpath("//span[@class='item-price']"));
+		String priceText = productPriceInCart.getText();
+		int price = Integer.parseInt(priceText.replaceAll("[^0-9]", ""));
+		return price;
+		//String formatted = String.format("%.2f", value);
+	}
+	
+	
+	
 
 }

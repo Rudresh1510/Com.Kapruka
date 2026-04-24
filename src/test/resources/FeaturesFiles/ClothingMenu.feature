@@ -200,13 +200,97 @@ Scenario: Verify that more products are loaded when click on See More Products b
     #Verify cart retains products after page refresh
     #This test case verify that when user click on clothing menu, then click on a produt then add to cart
     #then click on refresh button then the products added to cart should still be in the cart
-    @test
+    @smoke
     Scenario: Verify that products added to cart are retained after page refresh
     When User click on Clothing button
     And User click on a product
     And User click on Add to Cart button
     And User click on refresh page button
     Then The products added to cart should still be in the cart after page refresh
+    
+    #Scenario: Verify cart retains products when user navigates across pages
+    #This test case verify that when user click on clothing menu, then click on a produt then add to cart
+    #then navigate to home page and then navigate back to clothing page then the products added to cart should still be in the cart
+    @smoke
+    Scenario: Verify that products added to cart are retained when user navigates across pages
+    When User click on Clothing button
+    And User click on a product
+    And User clicks on Add to Cart button
+    And User click on Continue Shopping button
+    And User click on Home page button
+    And User click on Cart button of Home Page
+    Then The products added to cart should still be in the cart when user navigates across pages
+   
+    #Verify adding same product again updates quantity instead of creating duplicate entry
+    #This test case verify that when user click on clothing menu, then click on a produt then add to cart
+    #then click on continue shopping button and then click on the same product again and add to cart
+    #then the quantity of the product in the cart should be updated instead of creating a duplicate entry for the same product
+    @smoke
+    Scenario: Verify that adding the same product again updates quantity instead of creating duplicate entry
+    When User click on Clothing button
+    And User click on a product
+    And User clicks on Add to Cart button
+    And User click on Continue Shopping button
+    And User go back to clothing menu from product details page
+    And User click on a product
+    And User clicks on Add to Cart button
+    And User click on View Cart button
+    Then The quantity of the product in the cart should be updated instead of creating a duplicate entry for the same product
+    
+    #Verify cart retains Same products when user navigates across pages
+    #This test case verify that when user click on clothing menu, then click on a produt then add to cart
+    #then navigate to home page and then navigate back to clothing page then the products added to cart should still be in the cart
+    @smoke
+    Scenario: Verify that same products added to cart are retained when user navigates across pages
+    When User click on Clothing button
+    And User captures the name and price of a product
+    And User click on a product    
+    And User clicks on Add to Cart button
+    And User click on Continue Shopping button
+    And User click on Home page button
+    And User click on Cart button of Home Page
+    Then The same products added to cart should still be in the cart when user navigates across pages
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
      
     
