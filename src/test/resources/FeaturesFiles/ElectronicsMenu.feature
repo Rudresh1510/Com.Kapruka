@@ -19,7 +19,9 @@ Scenario: Verify that Kitchen Appliances page loads successfully when clicked on
     Then User should nevigate to Kitchen Appliances page
 
 # This test case verify that when user click on electronics menu and then 30 products should be displayed
-@test
+@smoke
 Scenario: Verify that 30 products are displayed when click on electronics menu
     When User click on Electronics button
     Then 30 products should be displayed on the electronics menu page
+    
+    

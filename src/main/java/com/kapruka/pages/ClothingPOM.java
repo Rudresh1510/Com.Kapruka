@@ -22,8 +22,7 @@ public class ClothingPOM {
 	WebElement allItemsBtn;    
 	
 	@FindBy (xpath = "//a[@title='Shop For Womens Clothing b(699)b']")
-	WebElement womenClothingBtn;
-	
+	WebElement womenClothingBtn;	
 	@FindBy (xpath = "//a[contains(@title,'Shop For Mens Clothing')]//span")
 	WebElement menClothingBtn;
 	
@@ -78,6 +77,9 @@ public class ClothingPOM {
 	
 	@FindBy(xpath = "//ul[@id='suggestions-dropdown']/li")
 	List<WebElement> searchAutoSuggestions;
+	
+	@FindBy (xpath = "//div[@class='logo_wrapper_block']/a[1]")
+	WebElement kaprukaLogo;
 	
 	//@FindBy(xpath = "//div[contains(@class,'catalogueV2Repeater')]/a")
 	//List<WebElement> productDisplayed;
@@ -198,12 +200,15 @@ public class ClothingPOM {
 	
 	public String captureFirstProductDescription() {
 		WaitFor.elementToBeVisible(By.xpath("(//div[@class='catalogueV2textBlock'])[1]/div[1]"));
-		return firstProductDescription.getText();
+		return firstProductDescription.getText().trim();
 	}
 	
-	public String captureFirstProductPrice() {
+	public double captureFirstProductPrice() {
 		WaitFor.elementToBeVisible(By.xpath("(//div[@class='catalogueV2textBlock'])[1]/div[2]"));
-		return firstProductPrice.getText();
+		String price =  firstProductPrice.getText();
+		//int priceValue = Integer.parseDouble(price.replaceAll("[^0-9]", ""));
+		double priceValue = Double.parseDouble(price.replaceAll("[^0-9.]", ""));
+		return priceValue;
 	}
 	
 
@@ -249,6 +254,11 @@ public class ClothingPOM {
 		WaitFor.presenceOfAllElementLocated(By.xpath("//ul[@id='suggestions-dropdown']/li"), 0);
 		List<WebElement> autoSuggestions = searchAutoSuggestions;
 		return autoSuggestions.stream().map(WebElement::getText).toList();
+	}
+	
+	public void clickKaprukaLogo() {
+		WaitFor.elementToBeClickable(By.xpath("//div[@class='logo_wrapper_block']/a[1]"));
+		kaprukaLogo.click();
 	}
 	
 	/* public String imgSourceFirstProduct() {
