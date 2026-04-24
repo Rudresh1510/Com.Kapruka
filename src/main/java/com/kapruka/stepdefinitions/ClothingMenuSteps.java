@@ -390,25 +390,6 @@ public class ClothingMenuSteps {
 	
 	
 	
-	/* String srcofProductBeforeClick;
-	@When("User capture the image source for first product")
-	public void imageSourceOfProduct() {
-		ClothingPOM clothing = new ClothingPOM();
-		srcofProductBeforeClick = clothing.imgSourceFirstProduct();		
-	}
-	
-	@Then("Image displayed before and after clicking on product should remain same")
-	public void verifyImageConsistency() {
-		ClothingFirstProductClickPOM product = new ClothingFirstProductClickPOM();
-		String srcOfImage = product.srcOfImageProduct();
-		
-		Assert.assertEquals(srcOfImage, srcofProductBeforeClick);
-	} */
-	
-	
-	
-	
-	
 	
 	
 	

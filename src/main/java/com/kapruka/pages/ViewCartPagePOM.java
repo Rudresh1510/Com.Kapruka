@@ -21,6 +21,7 @@ public class ViewCartPagePOM {
 	WebElement deleteProductBtn;
 	@FindBy(xpath = "//button[@class='keepshopping']")
 	WebElement keepShoppingBtn;
+	
 	@FindBy(xpath = "//button[@class='checkoutBtn js-checkout']")
 	WebElement checkoutBtn;
 	@FindBy(xpath = "//div[@class='alert alert-success']")

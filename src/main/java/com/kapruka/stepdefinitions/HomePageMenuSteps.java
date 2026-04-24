@@ -104,8 +104,7 @@ public class HomePageMenuSteps {
 		HomePageDashboardPOM homepage = new HomePageDashboardPOM();
 		String actualMessage = homepage.getInvalidSearchMessage();
 		Assert.assertEquals(actualMessage, expectedMessage, "Expected message: " + expectedMessage + ", but found: " + actualMessage);
-	}
-	
+	}	
 	
 	
 	

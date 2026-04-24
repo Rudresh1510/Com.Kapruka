@@ -35,7 +35,7 @@ Scenario: Verify that when user click on browse all products button of all produ
 Scenario: Verify that when user enter a valid product name and click on search button then it should load the page with the searched product    When User enter a valid product name in the search box "Shirt"    And User click on homePage search button    Then It should load the page with the searched product "Shirt"
     
     
-#Search with invalid keyword
+#Search with invalid keyword on HomePage Menu
 #This test case verify that when user enters a invalid prodct name and click on search button 
 #then it should display a messade as "All items in this category are sold out."
 @test

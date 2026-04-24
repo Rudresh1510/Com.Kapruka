@@ -15,8 +15,7 @@ import com.kapruka.utils.WaitFor;
 public class ClothingFirstProductClickPOM {
 
 	@FindBy (xpath = "//div[@class='blockDelivery imgtags']/h1")
-	WebElement productTitle;
-	
+	WebElement productTitle;	
 	@FindBy (xpath = "//div[@class='price']/span")
 	WebElement productPrice;
 	

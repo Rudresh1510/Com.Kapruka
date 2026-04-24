@@ -22,8 +22,7 @@ public class ClothingPOM {
 	WebElement allItemsBtn;    
 	
 	@FindBy (xpath = "//a[@title='Shop For Womens Clothing b(699)b']")
-	WebElement womenClothingBtn;
-	
+	WebElement womenClothingBtn;	
 	@FindBy (xpath = "//a[contains(@title,'Shop For Mens Clothing')]//span")
 	WebElement menClothingBtn;
 	
