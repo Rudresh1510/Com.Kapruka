@@ -38,5 +38,35 @@ Scenario: Verify that when user enter a valid product name and click on search b
 #Search with invalid keyword on HomePage Menu
 #This test case verify that when user enters a invalid prodct name and click on search button 
 #then it should display a messade as "All items in this category are sold out."
-@test
+@smoke
 Scenario: Verify that when user enter a invalid product name and click on search button then it should display a messade as "All items in this category are sold out."    When User enter a invalid product name in the search box "xyz123invalid"    And User click on homePage search button    Then It should display a messade as "All items in this category are sold out."
+    
+    
+#This test case verify that 14 products are displayed in best seller category
+@smoke
+Scenario: Verify that 14 products are displayed in Best Seller section on HomePage menu
+    Then 14 products should be displayed in the best seller products section on the HomePage menu page
+       
+    
+#This test case verify that products are displayed in best popular category
+@smoke
+Scenario: Verify that products are displayed in popular section on HomePage menu
+    Then Products should be displayed in the popular products section on the HomePage menu page
+    
+#This test case verify that footer note should be displayed on HomePage Menu
+@smoke
+Scenario: Verify that footer note should be displayed on HomePage Menu
+    Then Footer note should be displayed and should have text "KAPRUKA" on the HomePage menu page
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

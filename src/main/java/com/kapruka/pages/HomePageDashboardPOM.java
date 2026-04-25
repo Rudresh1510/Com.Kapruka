@@ -3,9 +3,11 @@ package com.kapruka.pages;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
 import com.kapruka.sourcePackage.Keyword;
 import com.kapruka.utils.WaitFor;
 
@@ -52,6 +54,15 @@ public class HomePageDashboardPOM {
 	
 	@FindBy(xpath = "//div[@class='CatalogueV2Design']/div/h4[1]")
 	WebElement invalidSearchMessage;
+	
+	@FindBy(xpath = "//body[1]/div[9]/div[2]/div[1]/div")
+	List<WebElement> bestSellerProducts;
+	
+	@FindBy(xpath = "//div[@class='kp-promo-grid-layout']/a")
+	List<WebElement> pupularProducts;
+	
+	@FindBy(xpath = "//h2[@class='kp-zn92-main-title']")
+	WebElement footerText;
 	
 	{
 		PageFactory.initElements(Keyword.threadLocal.get(), this);
@@ -117,6 +128,30 @@ public class HomePageDashboardPOM {
 	public String getInvalidSearchMessage() {
 		WaitFor.elementToBeVisible(By.xpath("//div[@class='CatalogueV2Design']/div/h4[1]"));
 		return invalidSearchMessage.getText();
+	}
+	
+	public int countOfBestSellerProducts() {
+		WaitFor.presenceOfAllElementLocated(By.xpath("//body[1]/div[9]/div[2]/div[1]/div"),0);
+		return bestSellerProducts.size();
+	}
+	
+	public boolean productDisplayedinPopularProducts() {
+		JavascriptExecutor js = (JavascriptExecutor) Keyword.threadLocal.get();
+		js.executeScript("window.scrollBy(0, 1000);");		
+		WaitFor.presenceOfAllElementLocated(By.xpath("//div[@class='kp-promo-grid-layout']/a"),0);
+		for (WebElement product : pupularProducts) {
+			if (product.isDisplayed()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public String getFooterText() {
+		JavascriptExecutor js = (JavascriptExecutor) Keyword.threadLocal.get();
+		js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+		WaitFor.elementToBeVisible(By.xpath("//h2[@class='kp-zn92-main-title']"));
+		return footerText.getText();
 	}
 	
 	

@@ -13,14 +13,14 @@ This feature contains positive, negative tests for the Kapruka login page: https
     Then User should be logged in successfully
     
  # This test case verify that when user enters invalid Password it should not be able to login to the application
-@test @negative
+@smoke
  Scenario: Login with invalid password
     When User click on Accounts login button
     And User enters valid username and invalid password
     Then User should not be logged in and error message should be displayed
     
  # This test case verify that when user enters invalid username it should not be able to login to the application
- @negative   
+ @smoke   
  Scenario: Login with invalid username
     When User click on Accounts login button
     And User enters invalid username and valid password
