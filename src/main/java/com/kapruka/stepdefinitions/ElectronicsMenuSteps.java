@@ -10,6 +10,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class ElectronicsMenuSteps {
+	
+	int initialProductCount, productCountAfterSeeMore;
 
 	@When("User click on Electronics button")
 	public void clickOnElectronicsButton() {
@@ -43,7 +45,25 @@ public class ElectronicsMenuSteps {
 	}
 	
 	
+	@When("User captures the number of products displayed initially on the electronics menu page")
+	public void captureNumberOfProductsInitiallyOnElectronicsMenuPage() {
+		ElectronicsPOM electronicsMenu = new ElectronicsPOM();
+		initialProductCount = electronicsMenu.countOfProductsDisplayedAtStart();	
+	}
 	
+	@When("User click on See More Products button on Electronics Menu")
+	public void clickOnSeeMoreProductsButton() {
+		ElectronicsPOM electronicsMenu = new ElectronicsPOM();
+		electronicsMenu.scrollToSeeMoreProductsBtn();
+		electronicsMenu.clickSeeMoreProductsBtn();
+	}
+	
+	@Then("More products should be loaded on the electronics menu page")
+	public void moreProductsLoadedOnElectronicsMenuPage() {
+		ElectronicsPOM electronicsMenu = new ElectronicsPOM();
+		productCountAfterSeeMore = electronicsMenu.countOfProductsAfterSeeMoreProduct();
+		Assert.assertTrue(productCountAfterSeeMore > initialProductCount, "Expected more products to be loaded after clicking See More Products button");
+	}
 	
 	
 	

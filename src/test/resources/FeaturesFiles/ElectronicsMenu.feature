@@ -24,4 +24,11 @@ Scenario: Verify that 30 products are displayed when click on electronics menu
     When User click on Electronics button
     Then 30 products should be displayed on the electronics menu page
     
-    
+# This test case verify that when user click on electronic menu and then click on See More Products button it should load more products
+@smoke
+Scenario: Verify that more products are loaded when click on See More Products button on Electronics Menu 
+    When User click on Electronics button
+    And User captures the number of products displayed initially on the electronics menu page
+    And User click on See More Products button on Electronics Menu
+    Then More products should be loaded on the electronics menu page
+ 

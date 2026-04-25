@@ -106,6 +106,37 @@ public class HomePageMenuSteps {
 		Assert.assertEquals(actualMessage, expectedMessage, "Expected message: " + expectedMessage + ", but found: " + actualMessage);
 	}	
 	
+	@Then("{int} products should be displayed in the best seller products section on the HomePage menu page")
+	public void countOfProductsInBestSeller(int expectedCount) {
+		HomePageDashboardPOM homepage = new HomePageDashboardPOM();
+		int countOfBestSellerProducts = homepage.countOfBestSellerProducts();
+		Assert.assertEquals(countOfBestSellerProducts, expectedCount, "Expected " + expectedCount
+				+ " best seller products to be displayed on the HomePage menu page, but found " + countOfBestSellerProducts);
+	}
+	
+	@Then("Products should be displayed in the popular products section on the HomePage menu page")
+	public void productsDisplayedInPopularProducts() {
+		HomePageDashboardPOM homepage = new HomePageDashboardPOM();
+		boolean isProductDisplayedInPopularProducts = homepage.productDisplayedinPopularProducts();
+		Assert.assertTrue(isProductDisplayedInPopularProducts, "Expected products to be displayed in the popular products section");
+	}
+	
+	@Then("Footer note should be displayed and should have text {string} on the HomePage menu page")
+	public void footerNoteDisplayedWithText(String expectedFooterNote) {
+		HomePageDashboardPOM homepage = new HomePageDashboardPOM();
+		String actualFooterNote = homepage.getFooterText();
+		boolean footerTextConainsExpectedText = actualFooterNote.contains(expectedFooterNote);
+		Assert.assertTrue(footerTextConainsExpectedText, "Expected footer note to contain text: " + expectedFooterNote + ", but found: ");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 
