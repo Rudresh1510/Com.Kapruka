@@ -58,7 +58,7 @@ Scenario: Verify that products are displayed in popular section on HomePage menu
 Scenario: Verify that footer note should be displayed on HomePage Menu
     Then Footer note should be displayed and should have text "KAPRUKA" on the HomePage menu page
     
-    
+
     
     
     
